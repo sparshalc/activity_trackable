@@ -85,6 +85,7 @@ GEM
       msgpack (~> 1.2)
     brakeman (7.0.2)
       racc
+    browser (6.2.0)
     builder (3.3.0)
     capybara (3.40.0)
       addressable
@@ -264,6 +265,8 @@ GEM
     regexp_parser (2.10.0)
     reline (0.6.1)
       io-console (~> 0.5)
+    request_store (1.7.0)
+      rack (>= 1.4)
     responders (3.1.1)
       actionpack (>= 5.2)
       railties (>= 5.2)
@@ -392,6 +395,7 @@ PLATFORMS
 DEPENDENCIES
   bootsnap
   brakeman
+  browser
   capybara
   cssbundling-rails
   debug
@@ -404,6 +408,7 @@ DEPENDENCIES
   propshaft
   puma (>= 5.0)
   rails (~> 8.0.2)
+  request_store
   rspec-rails (~> 8.0.0)
   rubocop-rails-omakase
   selenium-webdriver

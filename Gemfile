@@ -72,3 +72,9 @@ end
 
 # Devise for authentication
 gem "devise", "~> 4.9"
+
+# Request store for thread-safe request storage
+gem "request_store"
+
+# Browser detection
+gem "browser"
