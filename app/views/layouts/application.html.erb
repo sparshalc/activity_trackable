@@ -23,6 +23,10 @@
   </head>
 
   <body>
+    <% if notice.present? || alert.present? %>
+      <%= render 'shared/notice' %>
+    <% end %>
+    
     <%= yield %>
   </body>
 </html>
