@@ -22,11 +22,50 @@
     <%= javascript_include_tag "application", "data-turbo-track": "reload", type: "module" %>
   </head>
 
-  <body>
+  <body class="bg-gradient-to-br from-gray-50 via-white to-slate-50">
     <% if notice.present? || alert.present? %>
       <%= render 'shared/notice' %>
     <% end %>
-    
-    <%= yield %>
+
+    <% if user_signed_in? %>
+      <!-- Dashboard Layout -->
+      <div class="flex h-screen overflow-hidden">
+        <%= render 'shared/sidebar' %>
+        
+        <!-- Main content -->
+        <div class="flex-1 flex flex-col overflow-hidden lg:ml-64">
+          <%= render 'shared/topbar' %>
+          
+          <!-- Page content -->
+          <main class="flex-1 overflow-y-auto">
+            <div class="p-6">
+              <%= yield %>
+            </div>
+          </main>
+        </div>
+      </div>
+    <% else %>
+      <%= yield %>
+    <% end %>
+    <!-- Mobile menu JavaScript -->
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const sidebar = document.getElementById('sidebar');
+        const sidebarOverlay = document.getElementById('sidebar-overlay');
+
+        if (mobileMenuButton && sidebar && sidebarOverlay) {
+          mobileMenuButton.addEventListener('click', function() {
+            sidebar.classList.toggle('-translate-x-full');
+            sidebarOverlay.classList.toggle('hidden');
+          });
+
+          sidebarOverlay.addEventListener('click', function() {
+            sidebar.classList.add('-translate-x-full');
+            sidebarOverlay.classList.add('hidden');
+          });
+        }
+      });
+    </script>
   </body>
 </html>
