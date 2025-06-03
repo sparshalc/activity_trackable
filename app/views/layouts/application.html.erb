@@ -29,7 +29,7 @@
 
     <% if user_signed_in? %>
       <!-- Dashboard Layout -->
-      <div class="flex h-screen overflow-hidden">
+      <div class="flex h-screen overflow-hidden" data-controller="mobile-menu">
         <%= render 'shared/sidebar' %>
         
         <!-- Main content -->
@@ -47,25 +47,5 @@
     <% else %>
       <%= yield %>
     <% end %>
-    <!-- Mobile menu JavaScript -->
-    <script>
-      document.addEventListener('DOMContentLoaded', function() {
-        const mobileMenuButton = document.getElementById('mobile-menu-button');
-        const sidebar = document.getElementById('sidebar');
-        const sidebarOverlay = document.getElementById('sidebar-overlay');
-
-        if (mobileMenuButton && sidebar && sidebarOverlay) {
-          mobileMenuButton.addEventListener('click', function() {
-            sidebar.classList.toggle('-translate-x-full');
-            sidebarOverlay.classList.toggle('hidden');
-          });
-
-          sidebarOverlay.addEventListener('click', function() {
-            sidebar.classList.add('-translate-x-full');
-            sidebarOverlay.classList.add('hidden');
-          });
-        }
-      });
-    </script>
   </body>
 </html>
