@@ -1,9 +1,10 @@
 class Recognition < ApplicationRecord
+  acts_as_tenant(:company)
+
   include Trackable
 
   belongs_to :giver, class_name: "User"
   belongs_to :recipient, class_name: "User"
-  belongs_to :company
   has_many :activities, as: :trackable, dependent: :destroy
 
   enum :status, {

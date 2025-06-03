@@ -12,6 +12,8 @@ class User < ApplicationRecord
   has_many :activities, dependent: :nullify
 
   validates :full_name, presence: true
+  before_create :build_company_user_and_set_company
+
 
   def current_company
     # TODO: user current_company_id on User later.
@@ -73,5 +75,10 @@ class User < ApplicationRecord
     end
 
     metadata
+  end
+
+  def build_company_user_and_set_company
+    company_users.build(company_id: ActsAsTenant.current_tenant.id)
+    self.selected_company_id ||= ActsAsTenant.current_tenant.id
   end
 end

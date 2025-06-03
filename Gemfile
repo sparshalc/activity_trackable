@@ -78,3 +78,6 @@ gem "request_store"
 
 # Browser detection
 gem "browser"
+
+# Acts as tenant for multi-tenancy
+gem "acts_as_tenant"

@@ -1,4 +1,6 @@
 class Activity < ApplicationRecord
+  acts_as_tenant(:company)
+
   # Constants
   ACTIONS = {
     login: "login",
@@ -19,7 +21,6 @@ class Activity < ApplicationRecord
   }.freeze
 
   belongs_to :trackable, polymorphic: true
-  belongs_to :company
   belongs_to :user
 
   validates :action, presence: true, inclusion: { in: ACTIONS.values }
