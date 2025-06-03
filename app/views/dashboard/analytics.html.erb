@@ -1,13 +1,11 @@
-<% content_for :page_title, "Analytics Dashboard" %>
+<% content_for :title, "Analytics Dashboard" %>
 
 <div class="space-y-8">
-  <!-- Header -->
   <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between">
     <div>
-        <%# kept empty to keep fiter in right hand side %>
+      <p class="text-slate-600 mt-2">Insights and metrics for your application</p>
     </div>
     
-    <!-- Date Range Filter -->
     <div class="mt-4 sm:mt-0">
       <%= form_with url: analytics_path, method: :get, local: true, class: "flex items-center space-x-2" do |form| %>
         <%= form.select :date_range, 
@@ -25,9 +23,7 @@
     </div>
   </div>
 
-  <!-- Key Metrics Cards -->
   <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-    <!-- Total Activities -->
     <div class="bg-white rounded-2xl shadow-lg border border-slate-100 p-6">
       <div class="flex items-center justify-between">
         <div>
@@ -43,7 +39,6 @@
       </div>
     </div>
 
-    <!-- Total Users -->
     <div class="bg-white rounded-2xl shadow-lg border border-slate-100 p-6">
       <div class="flex items-center justify-between">
         <div>
@@ -59,7 +54,6 @@
       </div>
     </div>
 
-    <!-- Daily Active Users -->
     <div class="bg-white rounded-2xl shadow-lg border border-slate-100 p-6">
       <div class="flex items-center justify-between">
         <div>
@@ -75,7 +69,6 @@
       </div>
     </div>
 
-    <!-- Peak Activity Hour -->
     <div class="bg-white rounded-2xl shadow-lg border border-slate-100 p-6">
       <div class="flex items-center justify-between">
         <div>
@@ -95,9 +88,7 @@
     </div>
   </div>
 
-  <!-- Charts Section -->
   <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-    <!-- Activity Timeline -->
     <div class="bg-white rounded-3xl shadow-xl border border-slate-100 p-8">
       <h3 class="text-xl font-bold text-slate-900 mb-6">Activity Timeline</h3>
       <div class="h-64">
@@ -110,7 +101,6 @@
       </div>
     </div>
 
-    <!-- User Growth -->
     <div class="bg-white rounded-3xl shadow-xl border border-slate-100 p-8">
       <h3 class="text-xl font-bold text-slate-900 mb-6">User Growth</h3>
       <div class="h-64">
@@ -122,9 +112,7 @@
     </div>
   </div>
 
-  <!-- Activity Types & Browser Stats -->
   <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-    <!-- Activity Types -->
     <div class="bg-white rounded-3xl shadow-xl border border-slate-100 p-8">
       <h3 class="text-xl font-bold text-slate-900 mb-6">Activity Types</h3>
       <div class="h-64">
@@ -134,7 +122,6 @@
       </div>
     </div>
 
-    <!-- Browser Usage -->
     <div class="bg-white rounded-3xl shadow-xl border border-slate-100 p-8">
       <h3 class="text-xl font-bold text-slate-900 mb-6">Browser Usage</h3>
       <div class="space-y-4">
@@ -163,9 +150,7 @@
     </div>
   </div>
 
-  <!-- Top Users & Peak Hours -->
   <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-    <!-- Top Active Users -->
     <div class="bg-white rounded-3xl shadow-xl border border-slate-100 p-8">
       <h3 class="text-xl font-bold text-slate-900 mb-6">Most Active Users</h3>
       <div class="space-y-4">
@@ -195,7 +180,6 @@
       </div>
     </div>
 
-    <!-- Peak Hours Chart -->
     <div class="bg-white rounded-3xl shadow-xl border border-slate-100 p-8">
       <h3 class="text-xl font-bold text-slate-900 mb-6">Activity by Hour</h3>
       <div class="h-64">
@@ -213,7 +197,6 @@
     </div>
   </div>
 
-  <!-- Recent Activity Summary -->
   <div class="bg-white rounded-3xl shadow-xl border border-slate-100 p-8">
     <h3 class="text-xl font-bold text-slate-900 mb-6">Activity Summary</h3>
     <div class="grid grid-cols-2 md:grid-cols-4 gap-6">

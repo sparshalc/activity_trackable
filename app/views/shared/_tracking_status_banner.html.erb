@@ -1,0 +1,19 @@
+<% unless ActsAsTenant.current_tenant.company_setting.activity_tracking %>
+  <div class="fixed bottom-6 left-1/2 transform -translate-x-1/2 z-50 bg-amber-50 border border-amber-200 rounded-2xl shadow-xl max-w-2xl w-full mx-4">
+    <div class="p-4">
+      <div class="flex items-center space-x-3">
+        <div class="w-8 h-8 bg-amber-100 rounded-full flex items-center justify-center flex-shrink-0">
+          <svg class="w-5 h-5 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 16.5c-.77.833.192 2.5 1.732 2.5z"></path>
+          </svg>
+        </div>
+        <div class="flex-1">
+          <p class="text-amber-800 font-medium">Activity Tracking is Disabled</p>
+          <p class="text-amber-700 text-sm">Analytics and monitoring are currently turned off.</p>
+        </div>
+        <%= link_to "Enable Tracking", edit_company_settings_path, 
+            class: "px-4 py-2 bg-amber-600 text-white rounded-lg text-sm font-medium hover:bg-amber-700 transition-colors ml-4" %>
+      </div>
+    </div>
+  </div>
+<% end %> 
