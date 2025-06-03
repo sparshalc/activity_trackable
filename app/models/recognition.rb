@@ -19,6 +19,7 @@ class Recognition < ApplicationRecord
   validates :points, presence: true, numericality: { greater_than: 0 }
   validates :message, presence: true
   validates :category, presence: true
+  validates :recipient, presence: true
   validate :cannot_recognize_self
   validate :users_in_same_company
 
@@ -32,10 +33,14 @@ class Recognition < ApplicationRecord
   private
 
   def cannot_recognize_self
+    return unless giver_id.present? && recipient_id.present?
+
     errors.add(:recipient, "can't recognize yourself") if giver_id == recipient_id
   end
 
   def users_in_same_company
+    return unless giver.present? && recipient.present? && company_id.present?
+
     unless giver.companies.exists?(id: company_id) && recipient.companies.exists?(id: company_id)
       errors.add(:base, "Users must be in the same company")
     end
