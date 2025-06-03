@@ -1,43 +1,147 @@
-<h2>Edit <%= resource_name.to_s.humanize %></h2>
+<% content_for :title, "Edit Profile" %>
 
-<%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
-  <%= render "devise/shared/error_messages", resource: resource %>
+<div class="space-y-6">
+  <!-- Form Card -->
+  <div class="bg-white rounded-3xl shadow-xl border border-slate-100 p-8">
+    <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }, data: { turbo: "false" }) do |f| %>
+      <%= render "devise/shared/error_messages", resource: resource %>
+      
+      <div class="grid lg:grid-cols-2 gap-8">
+        <!-- Left Column - Account Information -->
+        <div class="space-y-6">
+          <div>
+            <h2 class="text-2xl font-bold text-slate-900 mb-6">Account Information</h2>
+            
+            <!-- Current Email Display (Read-only) -->
+            <div class="space-y-2">
+              <label class="block text-sm font-semibold text-slate-700">Current Email</label>
+              <div class="relative">
+                <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                  <svg class="h-5 w-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207"></path>
+                  </svg>
+                </div>
+                <div class="w-full pl-12 pr-4 py-4 border border-slate-200 rounded-2xl bg-slate-100 text-slate-700 font-medium">
+                  <%= current_user.email %>
+                </div>
+              </div>
+              <p class="text-xs text-slate-500">Email cannot be changed. Contact support if you need to update your email address.</p>
+            </div>
 
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
-  </div>
+            <!-- Full Name Field -->
+            <div class="space-y-2 mt-6">
+              <%= f.label :full_name, class: "block text-sm font-semibold text-slate-700" %>
+              <div class="relative">
+                <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                  <svg class="h-5 w-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                  </svg>
+                </div>
+                <%= f.text_field :full_name, 
+                    autofocus: true,
+                    placeholder: "Enter your full name",
+                    class: "w-full pl-12 pr-4 py-4 border border-slate-200 rounded-2xl focus:ring-2 focus:ring-slate-900 focus:border-transparent transition-all duration-200 bg-slate-50 hover:bg-white focus:bg-white text-slate-900 font-medium" %>
+              </div>
+            </div>
 
-  <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
-    <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
-  <% end %>
+            <!-- Pending Confirmation Notice -->
+            <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+              <div class="bg-amber-50 border border-amber-200 rounded-2xl p-4 mt-6">
+                <div class="flex items-center">
+                  <svg class="h-5 w-5 text-amber-400 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
+                  </svg>
+                  <span class="text-sm text-amber-800 font-medium">
+                    Currently waiting confirmation for: <strong><%= resource.unconfirmed_email %></strong>
+                  </span>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        </div>
 
-  <div class="field">
-    <%= f.label :password %> <i>(leave blank if you don't want to change it)</i><br />
-    <%= f.password_field :password, autocomplete: "new-password" %>
-    <% if @minimum_password_length %>
-      <br />
-      <em><%= @minimum_password_length %> characters minimum</em>
+        <!-- Right Column - Security Settings -->
+        <div class="space-y-6">
+          <div>
+            <h2 class="text-2xl font-bold text-slate-900 mb-6">Security Settings</h2>
+            
+            <!-- New Password Field -->
+            <div class="space-y-2">
+              <%= f.label :password, "New Password", class: "block text-sm font-semibold text-slate-700" %>
+              <p class="text-xs text-slate-500 mb-2">Leave blank if you don't want to change it</p>
+              <div class="relative">
+                <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                  <svg class="h-5 w-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                  </svg>
+                </div>
+                <%= f.password_field :password, 
+                    autocomplete: "new-password", 
+                    placeholder: "Enter new password",
+                    class: "w-full pl-12 pr-4 py-4 border border-slate-200 rounded-2xl focus:ring-2 focus:ring-slate-900 focus:border-transparent transition-all duration-200 bg-slate-50 hover:bg-white focus:bg-white text-slate-900 font-medium" %>
+              </div>
+            </div>
+
+            <!-- Confirm Password Field -->
+            <div class="space-y-2 mt-6">
+              <%= f.label :password_confirmation, "Confirm New Password", class: "block text-sm font-semibold text-slate-700" %>
+              <div class="relative">
+                <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                  <svg class="h-5 w-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                  </svg>
+                </div>
+                <%= f.password_field :password_confirmation, 
+                    autocomplete: "new-password", 
+                    placeholder: "Confirm your new password",
+                    class: "w-full pl-12 pr-4 py-4 border border-slate-200 rounded-2xl focus:ring-2 focus:ring-slate-900 focus:border-transparent transition-all duration-200 bg-slate-50 hover:bg-white focus:bg-white text-slate-900 font-medium" %>
+              </div>
+            </div>
+
+            <!-- Current Password Field -->
+            <div class="space-y-2 mt-6">
+              <%= f.label :current_password, class: "block text-sm font-semibold text-slate-700" %>
+              <p class="text-xs text-slate-500 mb-2">We need your current password to confirm changes</p>
+              <div class="relative">
+                <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                  <svg class="h-5 w-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"></path>
+                  </svg>
+                </div>
+                <%= f.password_field :current_password, 
+                    autocomplete: "current-password", 
+                    placeholder: "Enter your current password",
+                    class: "w-full pl-12 pr-4 py-4 border border-slate-200 rounded-2xl focus:ring-2 focus:ring-slate-900 focus:border-transparent transition-all duration-200 bg-slate-50 hover:bg-white focus:bg-white text-slate-900 font-medium" %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="flex flex-col sm:flex-row gap-4 pt-8 border-t border-slate-100 mt-8">
+        <%= f.submit "Update Profile", 
+            class: "flex-1 bg-gradient-to-br from-slate-900 to-slate-700 hover:from-slate-800 hover:to-slate-600 text-white font-bold py-4 px-8 rounded-2xl transition-all duration-200 transform hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-slate-500 focus:ring-offset-2 shadow-lg text-center" %>
+        <%= link_to "Cancel", :back, 
+            class: "flex-1 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold py-4 px-8 rounded-2xl transition-all duration-200 text-center focus:outline-none focus:ring-2 focus:ring-slate-500 focus:ring-offset-2" %>
+      </div>
+
+      <!-- Security Notice -->
+      <div class="bg-slate-50 rounded-2xl p-6 mt-6">
+        <div class="flex items-start space-x-3">
+          <div class="w-6 h-6 bg-slate-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+            <svg class="w-3 h-3 text-slate-600" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path>
+            </svg>
+          </div>
+          <div>
+            <p class="text-sm font-semibold text-slate-900">Security Notice</p>
+            <p class="text-sm text-slate-600 mt-1">
+              Going back at this stage doesn't change your account settings. All changes are only saved when you click "Update Profile".
+            </p>
+          </div>
+        </div>
+      </div>
     <% end %>
   </div>
-
-  <div class="field">
-    <%= f.label :password_confirmation %><br />
-    <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
-  </div>
-
-  <div class="field">
-    <%= f.label :current_password %> <i>(we need your current password to confirm your changes)</i><br />
-    <%= f.password_field :current_password, autocomplete: "current-password" %>
-  </div>
-
-  <div class="actions">
-    <%= f.submit "Update" %>
-  </div>
-<% end %>
-
-<h3>Cancel my account</h3>
-
-<div>Unhappy? <%= button_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?", turbo_confirm: "Are you sure?" }, method: :delete %></div>
-
-<%= link_to "Back", :back %>
+</div>

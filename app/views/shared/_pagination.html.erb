@@ -1,0 +1,20 @@
+<nav class="flex items-center justify-between">
+  <!-- Previous button -->
+  <% if @pagy.prev %>
+    <%= link_to "Previous", url_for(page: @pagy.prev), class: "relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50" %>
+  <% else %>
+    <span class="relative inline-flex items-center rounded-md border border-gray-300 bg-gray-100 px-4 py-2 text-sm font-medium text-gray-400 cursor-not-allowed">Previous</span>
+  <% end %>
+
+  <!-- Page info -->
+  <span class="text-sm text-gray-700">
+    Page <%= @pagy.page %> of <%= @pagy.pages %>
+  </span>
+
+  <!-- Next button -->
+  <% if @pagy.next %>
+    <%= link_to "Next", url_for(page: @pagy.next), class: "relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50" %>
+  <% else %>
+    <span class="relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-gray-100 px-4 py-2 text-sm font-medium text-gray-400 cursor-not-allowed">Next</span>
+  <% end %>
+</nav>

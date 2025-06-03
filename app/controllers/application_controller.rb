@@ -1,5 +1,6 @@
 class ApplicationController < ActionController::Base
   include SetTenantConcern
+  include Pagy::Backend
   before_action :configure_permitted_parameters, if: :devise_controller?
   before_action :store_request_data
   before_action :authenticate_user!
@@ -8,9 +9,10 @@ class ApplicationController < ActionController::Base
   allow_browser versions: :modern
 
   protected
+
   def configure_permitted_parameters
-    devise_parameter_sanitizer.permit(:sign_up, keys: [ :name, :company_id ])
-    devise_parameter_sanitizer.permit(:account_update, keys: [ :name ])
+    devise_parameter_sanitizer.permit(:sign_up, keys: [ :full_name, :company_id ])
+    devise_parameter_sanitizer.permit(:account_update, keys: [ :full_name ])
   end
 
   def store_request_data
