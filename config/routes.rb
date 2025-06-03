@@ -15,6 +15,8 @@ Rails.application.routes.draw do
   end
 
   resource :company_settings, only: [ :show, :edit, :update ]
+  resources :activities, only: [ :index ]
+  resources :users, only: [ :index ]
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
   # Can be used by load balancers and uptime monitors to verify that the app is live.

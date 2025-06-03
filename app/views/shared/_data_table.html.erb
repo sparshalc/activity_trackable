@@ -1,0 +1,72 @@
+<div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+  <% if local_assigns[:title] || local_assigns[:description] %>
+    <div class="px-6 py-4 border-b border-slate-200">
+      <% if local_assigns[:title] %>
+        <h3 class="text-lg font-semibold text-slate-900"><%= title %></h3>
+      <% end %>
+      <% if local_assigns[:description] %>
+        <p class="text-sm text-slate-600 mt-1"><%= description %></p>
+      <% end %>
+    </div>
+  <% end %>
+
+  <% if local_assigns[:filters] %>
+    <div class="px-6 py-4 bg-slate-50 border-b border-slate-200">
+      <%= filters %>
+    </div>
+  <% end %>
+
+  <% if local_assigns[:toolbar] %>
+    <div class="px-6 py-3 bg-slate-50 border-b border-slate-200 flex items-center justify-between">
+      <%= toolbar %>
+    </div>
+  <% end %>
+
+  <div class="overflow-x-auto">
+    <table class="min-w-full divide-y divide-slate-200">
+      <% if local_assigns[:headers] %>
+        <thead class="bg-slate-50">
+          <tr>
+            <% headers.each do |header| %>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">
+                <%= header %>
+              </th>
+            <% end %>
+          </tr>
+        </thead>
+      <% end %>
+      
+      <tbody class="bg-white divide-y divide-slate-200">
+        <% if data.any? %>
+          <%= yield %>
+        <% else %>
+          <tr>
+            <td colspan="<%= headers&.length || 1 %>" class="px-6 py-12 text-center">
+              <div class="flex flex-col items-center">
+                <% if local_assigns[:empty_icon] %>
+                  <%= empty_icon %>
+                <% else %>
+                  <svg class="w-12 h-12 text-slate-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
+                  </svg>
+                <% end %>
+                <h3 class="text-lg font-medium text-slate-900 mb-2">
+                  <%= local_assigns[:empty_title] || "No data found" %>
+                </h3>
+                <p class="text-slate-500">
+                  <%= local_assigns[:empty_message] || "No records match your current filters." %>
+                </p>
+              </div>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+
+  <% if local_assigns[:pagination] %>
+    <div class="px-6 py-4 bg-slate-50 border-t border-slate-200">
+      <%= pagination %>
+    </div>
+  <% end %>
+</div>

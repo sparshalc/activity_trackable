@@ -89,3 +89,9 @@ gem "chartkick"
 # Groupdate for date grouping
 # https://github.com/ankane/groupdate
 gem "groupdate"
+
+# Pagination
+gem "pagy", "~> 9.3"
+
+# CSV
+gem "csv"

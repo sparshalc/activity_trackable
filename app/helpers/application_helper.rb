@@ -1,4 +1,5 @@
 module ApplicationHelper
+  include Pagy::Frontend
   def activity_icon_bg_class(action)
     case action
     when "login"
