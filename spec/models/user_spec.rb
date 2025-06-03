@@ -1,53 +1,49 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
+  describe 'factory' do
+    it 'has a valid factory' do
+      expect(build(:user)).to be_valid
+    end
+  end
+
   describe 'validations' do
+    subject { build(:user) }
+
     it 'is valid with valid attributes' do
-      user = User.new(
-        email: 'test@example.com',
-        password: 'password123',
-        password_confirmation: 'password123'
-      )
-      expect(user).to be_valid
+      expect(subject).to be_valid
     end
 
     it 'is not valid without an email' do
-      user = User.new(password: 'password123')
-      expect(user).not_to be_valid
-      expect(user.errors[:email]).to include("can't be blank")
+      subject.email = nil
+      expect(subject).not_to be_valid
+      expect(subject.errors[:email]).to include("can't be blank")
     end
 
     it 'is not valid with an invalid email format' do
-      user = User.new(
-        email: 'invalid-email',
-        password: 'password123'
-      )
-      expect(user).not_to be_valid
-      expect(user.errors[:email]).to include('is invalid')
+      subject.email = 'invalid-email'
+      expect(subject).not_to be_valid
+      expect(subject.errors[:email]).to include('is invalid')
     end
 
     it 'is not valid with a short password' do
-      user = User.new(
-        email: 'test@example.com',
-        password: '123'
-      )
-      expect(user).not_to be_valid
-      expect(user.errors[:password]).to include('is too short (minimum is 6 characters)')
+      subject.password = '123'
+      expect(subject).not_to be_valid
+      expect(subject.errors[:password]).to include('is too short (minimum is 6 characters)')
     end
 
     it 'is not valid with duplicate email' do
-      User.create!(
-        email: 'test@example.com',
-        password: 'password123'
-      )
+      create(:user, email: 'test@example.com')
+      subject.email = 'test@example.com'
 
-      duplicate_user = User.new(
-        email: 'test@example.com',
-        password: 'password123'
-      )
+      expect(subject).not_to be_valid
+      expect(subject.errors[:email]).to include('has already been taken')
+    end
 
-      expect(duplicate_user).not_to be_valid
-      expect(duplicate_user.errors[:email]).to include('has already been taken')
+    it 'requires password confirmation to match' do
+      subject.password_confirmation = 'different_password'
+      expect(subject).not_to be_valid
+      expect(subject.errors[:password_confirmation]).to include("doesn't match Password")
     end
   end
 
@@ -78,10 +74,11 @@ RSpec.describe User, type: :model do
   end
 
   describe 'trackable fields' do
-    let(:user) { User.create!(email: 'test@example.com', password: 'password123') }
+    let(:user) { create(:user) }
 
     it 'tracks sign in count' do
       expect(user).to respond_to(:sign_in_count)
+      expect(user.sign_in_count).to eq(0)
     end
 
     it 'tracks current sign in at' do
@@ -98,6 +95,27 @@ RSpec.describe User, type: :model do
 
     it 'tracks last sign in ip' do
       expect(user).to respond_to(:last_sign_in_ip)
+    end
+
+    context 'with tracking data' do
+      let(:tracked_user) { create(:user, :with_tracking_data) }
+
+      it 'has sign in count greater than zero' do
+        expect(tracked_user.sign_in_count).to be > 0
+      end
+
+      it 'has current sign in timestamp' do
+        expect(tracked_user.current_sign_in_at).to be_present
+      end
+
+      it 'has last sign in timestamp' do
+        expect(tracked_user.last_sign_in_at).to be_present
+      end
+
+      it 'has IP addresses recorded' do
+        expect(tracked_user.current_sign_in_ip).to be_present
+        expect(tracked_user.last_sign_in_ip).to be_present
+      end
     end
   end
 end
