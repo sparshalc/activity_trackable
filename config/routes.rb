@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   root "public#index"
 
   get "/dashboard", to: "dashboard#index"
+  get "/analytics", to: "dashboard#analytics"
 
   resources :dashboard, only: [] do
     collection do
