@@ -32,7 +32,7 @@ class Company < ApplicationRecord
   private
 
   def create_default_settings
-    create_company_setting!
+    create_company_setting!(activity_retention_days: 2)
   end
 
   def create_default_roles
