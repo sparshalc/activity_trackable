@@ -1,7 +1,14 @@
 Rails.application.routes.draw do
-  devise_for :users, skip: [ :registrations ], controllers: {
-    sessions: "users/sessions"
-  }
+  devise_for :users, controllers: {
+    sessions: "users/sessions",
+    registrations: "users/registrations"
+  }, skip: [ :registrations ]
+
+  devise_scope :user do
+    get "/users/edit", to: "users/registrations#edit", as: :edit_user_registration
+    patch "/users", to: "users/registrations#update", as: :user_registration
+    put "/users", to: "users/registrations#update"
+  end
 
   root "public#index"
 
