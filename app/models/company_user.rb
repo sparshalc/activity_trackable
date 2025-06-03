@@ -1,7 +1,8 @@
 class CompanyUser < ApplicationRecord
+  acts_as_tenant(:company)
+
   include Trackable
 
-  belongs_to :company
   belongs_to :user
   belongs_to :current_role, class_name: "Role", optional: true
   has_many :company_user_roles, dependent: :destroy
