@@ -9,3 +9,9 @@ application.register("hello", HelloController)
 
 import NotificationController from "./notification_controller"
 application.register("notification", NotificationController)
+
+import CompanySwitcherController from "./company_switcher_controller"
+application.register("company-switcher", CompanySwitcherController)
+
+import MobileMenuController from "./mobile_menu_controller"
+application.register("mobile-menu", MobileMenuController)

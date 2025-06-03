@@ -1,0 +1,84 @@
+<% content_for :title, "Set New Password - ActivityTracker" %>
+
+<div class="min-h-screen bg-gradient-to-br from-gray-50 via-white to-slate-50 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+  <!-- Subtle background decorative elements -->
+  <div class="absolute inset-0 overflow-hidden pointer-events-none">
+    <div class="absolute -top-40 -right-40 w-80 h-80 bg-gradient-to-br from-blue-100/20 to-indigo-100/20 rounded-full blur-3xl"></div>
+    <div class="absolute -bottom-40 -left-40 w-80 h-80 bg-gradient-to-br from-slate-100/20 to-gray-100/20 rounded-full blur-3xl"></div>
+  </div>
+
+  <div class="relative max-w-sm w-full space-y-10">
+    <!-- Minimal Header -->
+    <div class="text-center">
+      <!-- Clean Logo -->
+      <div class="flex justify-center mb-12">
+        <%= link_to root_path, class: "group" do %>
+          <div class="w-16 h-16 bg-gradient-to-br from-slate-900 to-slate-700 rounded-3xl flex items-center justify-center shadow-lg group-hover:scale-105 transition-all duration-300">
+            <svg class="w-9 h-9 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+            </svg>
+          </div>
+        <% end %>
+      </div>
+
+      <!-- Clean Welcome -->
+      <div class="mb-12">
+        <h1 class="text-3xl font-bold text-slate-900 mb-3">Set new password</h1>
+        <p class="text-slate-500">Enter your new password below</p>
+      </div>
+    </div>
+
+    <!-- Clean Form Card -->
+    <div class="bg-white rounded-3xl shadow-xl border border-slate-100 p-8">
+      <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }, class: "space-y-6") do |f| %>
+        <%= render "devise/shared/error_messages", resource: resource %>
+        <%= f.hidden_field :reset_password_token %>
+        
+        <!-- Clean Password Field -->
+        <div class="space-y-2">
+          <%= f.label :password, "New password", class: "block text-sm font-semibold text-slate-700" %>
+          <% if @minimum_password_length %>
+            <p class="text-xs text-slate-500 mb-2">(<%= @minimum_password_length %> characters minimum)</p>
+          <% end %>
+          <%= f.password_field :password, 
+              autofocus: true, 
+              autocomplete: "new-password",
+              placeholder: "Enter your new password",
+              class: "block w-full px-4 py-4 border border-slate-200 rounded-2xl text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-900 focus:border-transparent transition-all duration-200 bg-slate-50/50 hover:bg-white text-base" %>
+        </div>
+
+        <!-- Clean Password Confirmation Field -->
+        <div class="space-y-2">
+          <%= f.label :password_confirmation, "Confirm new password", class: "block text-sm font-semibold text-slate-700" %>
+          <%= f.password_field :password_confirmation, 
+              autocomplete: "new-password",
+              placeholder: "Confirm your new password",
+              class: "block w-full px-4 py-4 border border-slate-200 rounded-2xl text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-900 focus:border-transparent transition-all duration-200 bg-slate-50/50 hover:bg-white text-base" %>
+        </div>
+
+        <!-- Clean Submit Button -->
+        <div class="pt-4">
+          <%= f.submit "Change my password", class: "w-full bg-slate-900 hover:bg-slate-800 text-white font-semibold py-4 px-6 rounded-2xl transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-slate-900 focus:ring-offset-2 transform hover:scale-[1.02] active:scale-[0.98]" %>
+        </div>
+      <% end %>
+    </div>
+
+    <!-- Clean Sign In Link -->
+    <div class="text-center">
+      <p class="text-slate-500">
+        Remember your password? 
+        <%= link_to "Sign in", new_session_path(resource_name), class: "font-semibold text-slate-900 hover:text-slate-700 transition-colors ml-1" %>
+      </p>
+    </div>
+
+    <!-- Clean Back Link -->
+    <div class="text-center">
+      <%= link_to root_path, class: "inline-flex items-center text-sm text-slate-400 hover:text-slate-600 transition-colors group" do %>
+        <svg class="w-4 h-4 mr-2 group-hover:-translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+        </svg>
+        Back to home
+      <% end %>
+    </div>
+  </div>
+</div>
