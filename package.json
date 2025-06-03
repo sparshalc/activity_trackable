@@ -13,6 +13,8 @@
     "@hotwired/turbo-rails": "^8.0.16",
     "@stimulus-components/notification": "^3.0.0",
     "@tailwindcss/cli": "^4.1.8",
+    "chart.js": "^4.4.9",
+    "chartkick": "^5.0.1",
     "tailwindcss": "^4.1.8"
   }
 }

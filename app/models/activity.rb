@@ -110,6 +110,7 @@ class Activity < ApplicationRecord
   def self.determine_company(trackable, user)
     return trackable if trackable.is_a?(Company)
     return trackable.company if trackable.respond_to?(:company)
+    return ActsAsTenant.current_tenant if ActsAsTenant.current_tenant.present?
     return user.current_company if user&.respond_to?(:current_company)
     nil
   end

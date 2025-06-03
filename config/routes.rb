@@ -6,12 +6,15 @@ Rails.application.routes.draw do
   root "public#index"
 
   get "/dashboard", to: "dashboard#index"
+  get "/analytics", to: "dashboard#analytics"
 
   resources :dashboard, only: [] do
     collection do
       get :switch_company
     end
   end
+
+  resource :company_settings, only: [ :show, :edit, :update ]
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
   # Can be used by load balancers and uptime monitors to verify that the app is live.

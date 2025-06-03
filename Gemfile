@@ -81,3 +81,11 @@ gem "browser"
 
 # Acts as tenant for multi-tenancy
 gem "acts_as_tenant"
+
+# Chartkick for charts
+# https ://github.com/ankane/chartkick
+gem "chartkick"
+
+# Groupdate for date grouping
+# https://github.com/ankane/groupdate
+gem "groupdate"

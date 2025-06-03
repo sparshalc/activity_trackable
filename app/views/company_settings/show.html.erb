@@ -1,0 +1,112 @@
+<% content_for :title, "Company Settings" %>
+
+<div class="space-y-8">
+  <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between">
+    <div>
+      <p class="text-slate-600 mt-2">Manage your company's configuration and preferences</p>
+    </div>
+    
+    <div class="mt-4 sm:mt-0">
+      <%= link_to "Edit Settings", edit_company_settings_path, 
+          class: "px-6 py-3 bg-slate-900 text-white rounded-xl font-medium hover:bg-slate-800 transition-colors inline-flex items-center" %>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+    <div class="bg-white rounded-3xl shadow-xl border border-slate-100 p-8">
+      <div class="flex items-center mb-6">
+        <div class="w-12 h-12 bg-blue-100 rounded-2xl flex items-center justify-center mr-4">
+          <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+          </svg>
+        </div>
+        <h3 class="text-xl font-bold text-slate-900">Activity Tracking</h3>
+      </div>
+      
+      <div class="space-y-4">
+        <div class="flex items-center justify-between p-4 bg-slate-50 rounded-2xl">
+          <div>
+            <p class="font-semibold text-slate-900">Tracking Status</p>
+            <p class="text-sm text-slate-600">Monitor user activities and system events</p>
+          </div>
+          <div class="flex items-center">
+            <% if @company_setting.activity_tracking? %>
+              <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800">
+                <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                </svg>
+                Enabled
+              </span>
+            <% else %>
+              <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-red-100 text-red-800">
+                <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path>
+                </svg>
+                Disabled
+              </span>
+            <% end %>
+          </div>
+        </div>
+
+        <div class="flex items-center justify-between p-4 bg-slate-50 rounded-2xl">
+          <div>
+            <p class="font-semibold text-slate-900">Data Retention</p>
+            <p class="text-sm text-slate-600">How long to keep activity data</p>
+          </div>
+          <div class="text-right">
+            <span class="text-2xl font-bold text-slate-900"><%= @company_setting.activity_retention_days %></span>
+            <p class="text-sm text-slate-600">days</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="bg-white rounded-3xl shadow-xl border border-slate-100 p-8">
+      <div class="flex items-center mb-6">
+        <div class="w-12 h-12 bg-purple-100 rounded-2xl flex items-center justify-center mr-4">
+          <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+          </svg>
+        </div>
+        <h3 class="text-xl font-bold text-slate-900">Company Information</h3>
+      </div>
+      
+      <div class="space-y-4">
+        <div class="p-4 bg-slate-50 rounded-2xl">
+          <p class="font-semibold text-slate-900 mb-2">Company Name</p>
+          <p class="text-slate-700"><%= @company.name %></p>
+        </div>
+
+        <div class="p-4 bg-slate-50 rounded-2xl">
+          <p class="font-semibold text-slate-900 mb-2">Total Users</p>
+          <p class="text-2xl font-bold text-slate-900"><%= @company.users.count %></p>
+        </div>
+
+        <div class="p-4 bg-slate-50 rounded-2xl">
+          <p class="font-semibold text-slate-900 mb-2">Created</p>
+          <p class="text-slate-700"><%= @company.created_at.strftime("%B %d, %Y") %></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <% if @company_setting.activity_tracking? %>
+    <div class="bg-white rounded-3xl shadow-xl border border-slate-100 p-8">
+      <h3 class="text-xl font-bold text-slate-900 mb-6">Activity Statistics</h3>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="text-center p-6 bg-slate-50 rounded-2xl">
+          <div class="text-3xl font-bold text-slate-900 mb-2"><%= @company.activities.count %></div>
+          <p class="text-slate-600">Total Activities</p>
+        </div>
+        <div class="text-center p-6 bg-slate-50 rounded-2xl">
+          <div class="text-3xl font-bold text-slate-900 mb-2"><%= @company.activities.where('occurred_at > ?', 7.days.ago).count %></div>
+          <p class="text-slate-600">Last 7 Days</p>
+        </div>
+        <div class="text-center p-6 bg-slate-50 rounded-2xl">
+          <div class="text-3xl font-bold text-slate-900 mb-2"><%= @company.activities.where('occurred_at > ?', 1.day.ago).count %></div>
+          <p class="text-slate-600">Last 24 Hours</p>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div> 
