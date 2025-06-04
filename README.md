@@ -77,6 +77,12 @@ This application provides organizations with powerful tools to monitor user enga
 - **Data Sanitization**: Automatic removal of sensitive data from activity logs
 - **Request Tracking**: Secure request correlation and tracking
 
+### PDF Reporting
+- **One-click PDF Generation**: Generate reports directly from the analytics page
+- **Customizable Date Ranges**: Reports respect the selected date filter
+- **Professional Formatting**: Clean, print-ready PDF layout
+- **Comprehensive Data**: Includes all analytics metrics, charts data, and statistics
+
 ## Technology Stack
 
 ### Backend

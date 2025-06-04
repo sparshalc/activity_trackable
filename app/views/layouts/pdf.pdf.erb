@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Analytics Report</title>
+    <%= wicked_pdf_stylesheet_link_tag "application" %>
+    <style>
+      body {
+        font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        font-size: 12px;
+        line-height: 1.4;
+        color: #333;
+        margin: 0;
+        padding: 20px;
+      }
+      
+      .pdf-header {
+        border-bottom: 2px solid #e2e8f0;
+        padding-bottom: 20px;
+        margin-bottom: 30px;
+      }
+      
+      .pdf-title {
+        font-size: 28px;
+        font-weight: bold;
+        color: #1a202c;
+        margin: 0 0 10px 0;
+      }
+      
+      .pdf-subtitle {
+        font-size: 14px;
+        color: #64748b;
+        margin: 0;
+      }
+      
+      .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+        margin-bottom: 30px;
+      }
+      
+      .stat-card {
+        border: 1px solid #e2e8f0;
+        border-radius: 8px;
+        padding: 20px;
+        background: #f8fafc;
+      }
+      
+      .stat-label {
+        font-size: 11px;
+        color: #64748b;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 5px;
+      }
+      
+      .stat-value {
+        font-size: 24px;
+        font-weight: bold;
+        color: #1a202c;
+        margin-bottom: 5px;
+      }
+      
+      .stat-detail {
+        font-size: 10px;
+        color: #64748b;
+      }
+      
+      .section {
+        margin-bottom: 40px;
+        page-break-inside: avoid;
+      }
+      
+      .section-title {
+        font-size: 18px;
+        font-weight: bold;
+        color: #1a202c;
+        margin-bottom: 15px;
+        border-bottom: 1px solid #e2e8f0;
+        padding-bottom: 10px;
+      }
+      
+      .data-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+      }
+      
+      .data-table th,
+      .data-table td {
+        padding: 8px 12px;
+        text-align: left;
+        border-bottom: 1px solid #e2e8f0;
+      }
+      
+      .data-table th {
+        background: #f1f5f9;
+        font-weight: 600;
+        color: #374151;
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+      
+      .browser-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+      
+      .browser-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 8px 0;
+        border-bottom: 1px solid #f1f5f9;
+      }
+      
+      .browser-name {
+        font-weight: 500;
+      }
+      
+      .browser-count {
+        color: #64748b;
+        font-size: 11px;
+      }
+      
+      .page-break {
+        page-break-before: always;
+      }
+      
+      @media print {
+        body {
+          -webkit-print-color-adjust: exact;
+          print-color-adjust: exact;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <%= yield %>
+  </body>
+</html> 

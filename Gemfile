@@ -101,3 +101,9 @@ gem "csv"
 gem "discard", "~> 1.4"
 
 gem "pundit", "~> 2.5"
+
+# PDF generation
+gem "wicked_pdf"
+
+# WKHTMLTOPDF binary
+gem "wkhtmltopdf-binary"
