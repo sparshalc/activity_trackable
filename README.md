@@ -1,4 +1,6 @@
-# User Activity Tracking Application
+# User Activity Tracking Application  
+
+![image](https://github.com/user-attachments/assets/782791ec-6de5-4ad3-a1bf-6e9175f90e56)
 
 A comprehensive multi-tenant Ruby on Rails application designed to track user activities, manage company teams, and provide recognition systems with detailed analytics.
 
@@ -19,12 +21,19 @@ This application provides organizations with powerful tools to monitor user enga
 ## Key Features
 
 ### 🔍 Activity Tracking
+
+![image](https://github.com/user-attachments/assets/e1470563-0d90-4881-a3e7-6eb1611ac467)
+
 - **Comprehensive Activity Logging**: Automatically tracks user logins, logouts, profile updates, and system interactions
 - **Multi-tenant Architecture**: Full isolation between companies with secure data segregation
 - **Rich Metadata**: Captures IP addresses, user agents, session duration, and custom metadata
 - **Real-time Monitoring**: Live activity feeds and instant notifications
 
 ### 👥 User Management
+
+![image](https://github.com/user-attachments/assets/4ca70f4c-f1c9-4763-810e-eff27a44fcc7)
+
+
 - **Role-based Access Control**: Owner, Admin, Manager, and Employee roles with granular permissions
 - **Soft Delete System**: Safe user deactivation with full audit trails
 - **Multi-company Support**: Users can belong to multiple organizations
@@ -32,6 +41,9 @@ This application provides organizations with powerful tools to monitor user enga
 - **Profile Management**: Comprehensive user profile system
 
 ### 🏢 Company Management
+
+![image](https://github.com/user-attachments/assets/c2fa25f3-37d3-422a-99d1-af52d91c1293)
+
 - **Multi-tenant Architecture**: Complete company isolation using acts_as_tenant
 - **Company Settings**: Configurable activity tracking and retention policies
 - **Team Management**: Add/remove users, assign roles, manage permissions
@@ -39,11 +51,17 @@ This application provides organizations with powerful tools to monitor user enga
 - **Default Setup**: Automatic role and settings creation for new companies
 
 ### 🏆 Recognition System
+
+![image](https://github.com/user-attachments/assets/55070906-3cba-4b7d-9615-9e254dcadb57)
+
 - **Peer Recognition**: Employee recognition and appreciation system
 - **Activity Integration**: Recognition events are automatically tracked
 - **Recognition History**: Complete history of given and received recognitions
 
 ### 📊 Analytics & Reporting
+
+![image](https://github.com/user-attachments/assets/273fa164-ecec-4521-9a7a-c71580701975)
+
 - **Interactive Charts**: Powered by Chart.js and Chartkick
 - **Activity Analytics**: Detailed insights into user engagement patterns
 - **Date Range Filtering**: Flexible time-based analysis
@@ -51,6 +69,9 @@ This application provides organizations with powerful tools to monitor user enga
 - **Export Capabilities**: CSV export functionality for reports
 
 ### 🔐 Security & Permissions
+
+![image](https://github.com/user-attachments/assets/40282933-7625-4fe4-a626-06d9bb55b6ae)
+
 - **Pundit Authorization**: Fine-grained authorization policies
 - **Role-based Permissions**: Hierarchical permission system
 - **Data Sanitization**: Automatic removal of sensitive data from activity logs
