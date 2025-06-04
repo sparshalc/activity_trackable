@@ -47,41 +47,7 @@ Company.find_each do |company|
       company: company
     ) do |role|
       role.description = role_def[:description]
-      role.permissions = case role_def[:name]
-      when "owner", "admin"
-        {
-          dashboard: { view: true },
-          analytics: { view: true },
-          users: { view: true, create: true, update: true, delete: true },
-          activities: { view: true },
-          recognitions: { view: true, create: true },
-          company_settings: { view: true, edit: true },
-          user_profile: { view: true },
-          company_switcher: { view: true }
-        }
-      when "manager"
-        {
-          dashboard: { view: true },
-          analytics: { view: true },
-          users: { view: true, update: false },
-          activities: { view: true },
-          recognitions: { view: true, create: true },
-          company_settings: { view: false, edit: false },
-          user_profile: { view: true },
-          company_switcher: { view: true }
-        }
-      else # employee
-        {
-          dashboard: { view: true },
-          analytics: { view: false },
-          users: { view: false, create: false, update: false, delete: false },
-          activities: { view: true },
-          recognitions: { view: true, create: false },
-          company_settings: { view: false, edit: false },
-          user_profile: { view: true },
-          company_switcher: { view: true }
-        }
-      end
+      role.permissions = PermissionsConfig.permissions_for(role_def[:name])
     end
   end
 end

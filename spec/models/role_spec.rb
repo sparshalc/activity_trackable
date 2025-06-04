@@ -73,7 +73,7 @@ RSpec.describe Role, type: :model do
         role = build(:role, company: company, name: 'callback_test', permissions: nil)
         role.valid?
         role.save!
-        expect(role.permissions).to eql(Role::DEFAULT_PERMISSIONS.deep_dup.deep_stringify_keys)
+        expect(role.permissions).to eql(PermissionsConfig.permissions_for('callback_test').deep_stringify_keys)
       end
 
       it 'does not override existing permissions' do
@@ -124,8 +124,8 @@ RSpec.describe Role, type: :model do
     end
 
     it 'creates new resource permissions' do
-      role.update_permission(:new_resource, :action, true)
-      expect(role.permissions['new_resource']['action']).to be true
+      role.update_permission(:dashboard, :view, true)
+      expect(role.permissions['dashboard']['view']).to be true
     end
 
     it 'saves the role after updating' do
@@ -198,14 +198,14 @@ RSpec.describe Role, type: :model do
 
   describe 'constants' do
     it 'defines default permissions structure' do
-      expect(Role::DEFAULT_PERMISSIONS).to include(
+      expect(PermissionsConfig::DEFAULT_PERMISSIONS).to include(
         :activities,
         :users,
-        :company,
-        :roles
+        :user_profile,
+        :company_switcher
       )
 
-      expect(Role::DEFAULT_PERMISSIONS[:users]).to include(
+      expect(PermissionsConfig::DEFAULT_PERMISSIONS[:users]).to include(
         view: false,
         create: false,
         update: false,

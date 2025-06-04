@@ -20,6 +20,12 @@ class UsersController < ApplicationController
   end
 
   def discard
+    # Prevent users from discarding themselves
+    if @user == current_user
+      redirect_to users_path, alert: "You cannot discard yourself. Please ask another administrator to perform this action."
+      return
+    end
+
     reason = params[:reason].presence || "No reason provided"
 
     if @user.discard_with_tracking!(reason: reason, discarded_by: current_user)
