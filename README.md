@@ -78,6 +78,9 @@ This application provides organizations with powerful tools to monitor user enga
 - **Request Tracking**: Secure request correlation and tracking
 
 ### PDF Reporting
+
+![image](https://github.com/user-attachments/assets/7d5a436b-d043-49ee-8882-c11e28585b79)
+
 - **One-click PDF Generation**: Generate reports directly from the analytics page
 - **Customizable Date Ranges**: Reports respect the selected date filter
 - **Professional Formatting**: Clean, print-ready PDF layout
