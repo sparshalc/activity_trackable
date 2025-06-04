@@ -6,6 +6,11 @@ class RecognitionsController < ApplicationController
   def index
     @recognitions = filter_recognitions
     @pagy, @recognitions = pagy(@recognitions, items: 10)
+
+    respond_to do |format|
+      format.html
+      format.json { render json: { recognitions: @recognitions, users: @users, categories: @categories } }
+    end
   end
 
   def show

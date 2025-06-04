@@ -9,6 +9,7 @@ class UsersController < ApplicationController
     respond_to do |format|
       format.html
       format.csv { send_data users_csv(@users), filename: "users-#{Date.current}.csv" }
+      format.json { render json: { users: @users } }
     end
   end
 
