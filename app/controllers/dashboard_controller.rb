@@ -1,4 +1,6 @@
 class DashboardController < ApplicationController
+  rate_limit to: 10, within: 10.minute, only: [ :analytics ]
+
   before_action -> { authorize :dashboard, policy_class: DashboardPolicy }, only: %i[index analytics switch_company]
 
   def index
@@ -53,6 +55,11 @@ class DashboardController < ApplicationController
                          .group("EXTRACT(hour FROM occurred_at)")
                          .count
                          .sort_by { |hour, _| hour.to_i }
+
+    respond_to do |format|
+      format.html
+      format.json { render json: { activities: @activities, users: @users, recognitions: @recognitions, analytics: @analytics, peak_hours: @peak_hours, browser_stats: @browser_stats, unique_daily_users: @unique_daily_users, top_users: @top_users } }
+    end
   end
 
   def switch_company
