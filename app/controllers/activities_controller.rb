@@ -6,6 +6,11 @@ class ActivitiesController < ApplicationController
     @pagy, @activities = pagy(@activities, items: 2)
     @users = policy_scope(User).select(:id, :full_name, :email).order(:full_name)
     @activity_types = Activity::ACTIONS.values
+
+    respond_to do |format|
+      format.html
+      format.json { render json: { activities: @activities, users: @users, activity_types: @activity_types } }
+    end
   end
 
   private

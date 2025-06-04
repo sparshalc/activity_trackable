@@ -2,7 +2,12 @@ class CompanySettingsController < ApplicationController
   before_action -> { authorize :company_setting, policy_class: CompanySettingPolicy }, only: %i[show edit update]
   before_action :set_company_setting
 
-  def show;  end
+  def show
+    respond_to do |format|
+      format.html
+      format.json { render json: @company_setting }
+    end
+  end
 
   def edit; end
 
