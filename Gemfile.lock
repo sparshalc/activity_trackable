@@ -116,6 +116,8 @@ GEM
       responders
       warden (~> 1.2.3)
     diff-lcs (1.6.2)
+    discard (1.4.0)
+      activerecord (>= 4.2, < 9.0)
     dotenv (3.1.8)
     drb (2.2.3)
     ed25519 (1.4.0)
@@ -225,6 +227,8 @@ GEM
     public_suffix (6.0.2)
     puma (6.6.0)
       nio4r (~> 2.0)
+    pundit (2.5.0)
+      activesupport (>= 3.0.0)
     raabro (1.4.0)
     racc (1.8.1)
     rack (3.1.15)
@@ -410,6 +414,7 @@ DEPENDENCIES
   csv
   debug
   devise (~> 4.9)
+  discard (~> 1.4)
   factory_bot_rails
   groupdate
   jbuilder
@@ -419,6 +424,7 @@ DEPENDENCIES
   pg (~> 1.1)
   propshaft
   puma (>= 5.0)
+  pundit (~> 2.5)
   rails (~> 8.0.2)
   request_store
   rspec-rails (~> 8.0.0)

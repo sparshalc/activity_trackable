@@ -1,0 +1,175 @@
+<% content_for :title, "Recognitions" %>
+
+<div class="space-y-6">
+  <div class="bg-white rounded-3xl shadow-xl border border-slate-100 p-8">
+    <div class="flex items-center justify-between">
+      <div>
+        <h1 class="text-3xl font-black text-slate-900 mb-2">
+          Team Recognitions 🏆
+        </h1>
+        <p class="text-slate-600 text-lg">Celebrate achievements and show appreciation for great work.</p>
+      </div>
+      <div class="hidden lg:block">
+        <% if current_user.current_role.can?(:recognitions, :create) %>
+          <%= link_to new_recognition_path, 
+              class: "bg-gradient-to-br from-slate-900 to-slate-700 hover:from-slate-800 hover:to-slate-600 text-white font-bold py-4 px-8 rounded-2xl transition-all duration-200 transform hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-slate-500 focus:ring-offset-2 shadow-lg flex items-center space-x-2" do %>
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+            </svg>
+            <span>Give Recognition</span>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+  <div class="bg-white rounded-3xl shadow-xl border border-slate-100 p-8">
+    <%= form_with url: recognitions_path, method: :get, local: true, class: "space-y-4" do |form| %>
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <div>
+          <%= form.label :date_range, "Date Range", class: "block text-sm font-semibold text-slate-700 mb-2" %>
+          <%= form.select :date_range, 
+              options_for_select([
+                ['All Time', ''],
+                ['Today', 'today'],
+                ['Last Week', 'week'],
+                ['Last Month', 'month']
+              ], params[:date_range]),
+              { include_blank: false },
+              { class: "w-full rounded-2xl border-slate-200 focus:border-slate-900 focus:ring-slate-900" } %>
+        </div>
+
+        <div>
+          <%= form.label :recipient_id, "Recipient", class: "block text-sm font-semibold text-slate-700 mb-2" %>
+          <%= form.select :recipient_id,
+              options_from_collection_for_select(@users, :id, :full_name, params[:recipient_id]),
+              { prompt: 'All Recipients' },
+              { class: "w-full rounded-2xl border-slate-200 focus:border-slate-900 focus:ring-slate-900" } %>
+        </div>
+
+        <div>
+          <%= form.label :category, "Category", class: "block text-sm font-semibold text-slate-700 mb-2" %>
+          <%= form.select :category,
+              options_for_select(@categories.map { |cat| [cat.humanize, cat] }, params[:category]),
+              { prompt: 'All Categories' },
+              { class: "w-full rounded-2xl border-slate-200 focus:border-slate-900 focus:ring-slate-900" } %>
+        </div>
+
+        <div class="flex items-end">
+          <%= form.submit "Apply Filters", class: "w-full bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold py-3 px-6 rounded-2xl transition-all duration-200" %>
+
+          <% if params[:giver_id].present? || params[:recipient_id].present? || params[:category].present? %>
+            <%= link_to recognitions_path, 
+                class: "text-slate-700 font-bold py-3 px-6 rounded-2xl transition-all duration-200" do %>
+              <span>Reset Filters</span>
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="lg:hidden">
+    <% if current_user.current_role.can?(:recognitions, :create) %>
+      <%= link_to new_recognition_path, 
+          class: "w-full bg-gradient-to-br from-slate-900 to-slate-700 hover:from-slate-800 hover:to-slate-600 text-white font-bold py-4 px-8 rounded-2xl transition-all duration-200 transform hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-slate-500 focus:ring-offset-2 shadow-lg flex items-center justify-center space-x-2" do %>
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+        </svg>
+        <span>Give Recognition</span>
+      <% end %>
+    <% end %>
+  </div>
+
+  <div class="bg-white rounded-3xl shadow-xl border border-slate-100 p-8">
+    <div class="flex items-center justify-between mb-6">
+      <h2 class="text-2xl font-bold text-slate-900">Recent Recognitions</h2>
+      <p class="text-sm text-slate-600">
+        Showing <%= @pagy.from %>-<%= @pagy.to %> of <%= @pagy.count %> recognitions
+      </p>
+    </div>
+
+    <% if @recognitions.any? %>
+      <div class="space-y-6">
+        <% @recognitions.each do |recognition| %>
+          <div class="bg-slate-50 rounded-2xl p-6 hover:bg-slate-100 transition-colors">
+            <%= link_to recognition_path(recognition) do %>
+              <div class="flex items-start justify-between">
+                <div class="flex items-start space-x-4 flex-1">
+                  <div class="w-12 h-12 bg-gradient-to-br from-slate-900 to-slate-700 rounded-2xl flex items-center justify-center flex-shrink-0">
+                    <span class="text-white text-sm font-bold">
+                      <%= recognition.giver.full_name.first.upcase %>
+                    </span>
+                  </div>
+                  
+                  <div class="flex-1 min-w-0">
+                    <div class="flex items-center space-x-2 mb-2">
+                      <p class="font-semibold text-slate-900"><%= recognition.giver.full_name %></p>
+                      <span class="text-slate-500">gave recognition to</span>
+                      <p class="font-semibold text-slate-900"><%= recognition.recipient.full_name %></p>
+                    </div>
+                    
+                    <div class="flex items-center space-x-3 mb-3">
+                      <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                        <%= recognition.category.humanize %>
+                      </span>
+                      <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                        <%= recognition.points %> points
+                      </span>
+                      <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium 
+                        <%= case recognition.status
+                            when 'pending' then 'bg-yellow-100 text-yellow-800'
+                            when 'approved' then 'bg-green-100 text-green-800'
+                            when 'rejected' then 'bg-red-100 text-red-800'
+                            end %>">
+                        <%= recognition.status.humanize %>
+                      </span>
+                    </div>
+                    
+                    <p class="text-slate-700 mb-3"><%= recognition.message %></p>
+                    
+                    <p class="text-xs text-slate-500">
+                      <%= time_ago_in_words(recognition.created_at) %> ago • 
+                      <%= recognition.created_at.strftime("%b %d, %Y at %I:%M %p") %>
+                    </p>
+                  </div>
+                </div>
+                
+                <div class="w-12 h-12 bg-gradient-to-br from-blue-600 to-purple-600 rounded-2xl flex items-center justify-center flex-shrink-0 ml-4">
+                  <span class="text-white text-sm font-bold">
+                    <%= recognition.recipient.full_name.first.upcase %>
+                  </span>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+
+      <% if @pagy.pages > 1 %>
+        <div class="mt-8 pt-6 border-t border-slate-100">
+          <%= render 'shared/pagination', pagy: @pagy %>
+        </div>
+      <% end %>
+    <% else %>
+      <div class="text-center py-12">
+        <div class="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-4">
+          <svg class="w-8 h-8 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"></path>
+          </svg>
+        </div>
+        <p class="text-slate-500 text-lg font-medium">No recognitions found</p>
+        <p class="text-slate-400 text-sm mb-6">Be the first to recognize someone's great work!</p>
+        <% if current_user.current_role.can?(:recognitions, :create) %>
+          <%= link_to new_recognition_path, 
+              class: "inline-flex items-center px-6 py-3 bg-gradient-to-br from-slate-900 to-slate-700 text-white font-medium rounded-2xl hover:from-slate-800 hover:to-slate-600 transition-all duration-200 space-x-2" do %>
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+            </svg>
+            <span>Give Recognition</span>
+          <% end %>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+</div> 

@@ -1,7 +1,10 @@
 class DashboardController < ApplicationController
+  before_action -> { authorize :dashboard, policy_class: DashboardPolicy }, only: %i[index analytics switch_company]
+
   def index
-    @activities = Activity.recent
-    @users = User.count
+    @activities = policy_scope(Activity.recent)
+    @users = policy_scope(User).count
+    @recognitions = policy_scope(Recognition).count
   end
 
   def analytics

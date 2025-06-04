@@ -1,11 +1,11 @@
 class User < ApplicationRecord
+  include Discard::Model
   include Trackable
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable,
          :trackable
-
 
   has_many :company_users, dependent: :destroy
   has_many :companies, through: :company_users
@@ -14,11 +14,34 @@ class User < ApplicationRecord
   validates :full_name, presence: true
   before_create :build_company_user_and_set_company
 
+  def active_for_authentication?
+    super && !discarded?
+  end
+
+  def inactive_message
+    discarded? ? :discarded : super
+  end
 
   def current_company
     # TODO: user current_company_id on User later.
 
-    companies.first
+    ActsAsTenant.current_tenant || companies.first
+  end
+
+  def current_role
+    company_users.find_by(company: current_company)&.current_role
+  end
+
+  def admin?
+    current_role&.name == "admin"
+  end
+
+  def owner?
+    current_role&.name == "owner"
+  end
+
+  def manager?
+    current_role&.name == "manager"
   end
 
   def role_in_company(company)
@@ -49,6 +72,33 @@ class User < ApplicationRecord
   def track_logout(request = nil)
     metadata = build_auth_metadata(request, :logout)
     track_activity("logout", metadata: metadata)
+  end
+
+  def discard_with_tracking!(reason: nil, discarded_by: nil)
+    metadata = {
+      reason: reason,
+      discarded_by_id: discarded_by&.id,
+      discarded_by_name: discarded_by&.full_name,
+      discarded_at: Time.current.iso8601
+    }
+
+    discard!
+    track_activity("user_discarded", user: discarded_by || self, metadata: metadata)
+  end
+
+  def undiscard_with_tracking!(reason: nil, undiscarded_by: nil)
+    was_discarded_duration = discarded_at ? ((Time.current - discarded_at) / 1.day).round : nil
+
+    metadata = {
+      reason: reason,
+      undiscarded_by_id: undiscarded_by&.id,
+      undiscarded_by_name: undiscarded_by&.full_name,
+      undiscarded_at: Time.current.iso8601,
+      was_discarded_for_days: was_discarded_duration
+    }
+
+    undiscard!
+    track_activity("user_undiscarded", user: undiscarded_by || self, metadata: metadata)
   end
 
   private

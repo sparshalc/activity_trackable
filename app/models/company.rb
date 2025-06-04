@@ -30,6 +30,14 @@ class Company < ApplicationRecord
     company_users.find_by(user: user)&.destroy
   end
 
+  def active_users_count
+    users.kept.count
+  end
+
+  def discarded_users_count
+    users.discarded.count
+  end
+
   private
 
   def create_default_settings
@@ -50,24 +58,36 @@ class Company < ApplicationRecord
     case role_name
     when "owner", "admin"
       {
-        activities: { view: true, export: true },
+        dashboard: { view: true },
+        analytics: { view: true },
         users: { view: true, create: true, update: true, delete: true },
-        company: { view: true, update: true },
-        roles: { view: true, create: true, update: true, delete: true }
+        activities: { view: true },
+        recognitions: { view: true, create: true },
+        company_settings: { view: true, edit: true },
+        user_profile: { view: true },
+        company_switcher: { view: true }
       }
     when "manager"
       {
-        activities: { view: true, export: true },
-        users: { view: true, create: true, update: true, delete: false },
-        company: { view: true, update: false },
-        roles: { view: true, create: false, update: false, delete: false }
+        dashboard: { view: true },
+        analytics: { view: true },
+        users: { view: true, update: false },
+        activities: { view: true },
+        recognitions: { view: true, create: true },
+        company_settings: { view: false, edit: false },
+        user_profile: { view: true },
+        company_switcher: { view: true }
       }
     else # employee
       {
-        activities: { view: false, export: false },
-        users: { view: true, create: false, update: false, delete: false },
-        company: { view: true, update: false },
-        roles: { view: false, create: false, update: false, delete: false }
+        dashboard: { view: true },
+        analytics: { view: false },
+        users: { view: false, create: false, update: false, delete: false },
+        activities: { view: true },
+        recognitions: { view: true, create: false },
+        company_settings: { view: false, edit: false },
+        user_profile: { view: true },
+        company_switcher: { view: true }
       }
     end
   end
