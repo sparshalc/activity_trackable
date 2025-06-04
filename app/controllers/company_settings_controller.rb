@@ -1,4 +1,5 @@
 class CompanySettingsController < ApplicationController
+  before_action -> { authorize :company_setting, policy_class: CompanySettingPolicy }, only: %i[show edit update]
   before_action :set_company_setting
 
   def show;  end

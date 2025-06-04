@@ -48,6 +48,8 @@
       <%= yield %>
     <% end %>
 
-    <%= render 'shared/tracking_status_banner' if user_signed_in? %>
+    <% if user_signed_in? && current_user.admin? %>
+      <%= render 'shared/tracking_status_banner' %>
+    <% end %>
   </body>
 </html>

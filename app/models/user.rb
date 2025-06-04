@@ -25,7 +25,19 @@ class User < ApplicationRecord
   def current_company
     # TODO: user current_company_id on User later.
 
-    companies.first
+    ActsAsTenant.current_tenant || companies.first
+  end
+
+  def current_role
+    company_users.find_by(company: current_company)&.current_role
+  end
+
+  def admin?
+    current_role&.name == "admin"
+  end
+
+  def owner?
+    current_role&.name == "owner"
   end
 
   def role_in_company(company)

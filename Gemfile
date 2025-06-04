@@ -98,3 +98,5 @@ gem "csv"
 
 # Discard for soft deletes
 gem "discard", "~> 1.4"
+
+gem "pundit", "~> 2.5"

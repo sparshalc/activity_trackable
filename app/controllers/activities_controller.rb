@@ -1,15 +1,17 @@
 class ActivitiesController < ApplicationController
+  before_action -> { authorize :activity, policy_class: ActivityPolicy }, only: %i[index]
+
   def index
     @activities = filter_activities
     @pagy, @activities = pagy(@activities, items: 2)
-    @users = ActsAsTenant.current_tenant.users.select(:id, :full_name, :email).order(:full_name)
+    @users = policy_scope(User).select(:id, :full_name, :email).order(:full_name)
     @activity_types = Activity::ACTIONS.values
   end
 
   private
 
   def filter_activities
-    activities = Activity.includes(:user).recent
+    activities = policy_scope(Activity).includes(:user).recent
 
     # Filter by date range
     if params[:date_range].present?

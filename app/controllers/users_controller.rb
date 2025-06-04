@@ -1,4 +1,5 @@
 class UsersController < ApplicationController
+  before_action -> { authorize :user, policy_class: UserPolicy }, only: %i[index discarded discard undiscard]
   before_action :set_user, only: [ :discard, :undiscard ]
 
   def index

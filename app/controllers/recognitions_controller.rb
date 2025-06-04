@@ -1,11 +1,11 @@
 class RecognitionsController < ApplicationController
-  before_action :authenticate_user!
+  before_action -> { authorize :recognition, policy_class: RecognitionPolicy }, only: %i[index show new create]
   before_action :set_recognition, only: [ :show ]
 
   def index
     @recognitions = filter_recognitions
     @pagy, @recognitions = pagy(@recognitions, items: 10)
-    @users = ActsAsTenant.current_tenant.users.select(:id, :full_name, :email).order(:full_name)
+    @users = policy_scope(User).select(:id, :full_name, :email).order(:full_name)
     @categories = Recognition::CATEGORIES
   end
 
@@ -14,7 +14,7 @@ class RecognitionsController < ApplicationController
 
   def new
     @recognition = Recognition.new
-    @users = ActsAsTenant.current_tenant.users.where.not(id: current_user.id).order(:full_name)
+    @users = policy_scope(User).where.not(id: current_user.id).order(:full_name)
     @categories = Recognition::CATEGORIES
   end
 
@@ -26,7 +26,7 @@ class RecognitionsController < ApplicationController
     if @recognition.save
       redirect_to recognitions_path, notice: "Recognition was successfully given! 🎉"
     else
-      @users = ActsAsTenant.current_tenant.users.where.not(id: current_user.id).order(:full_name)
+      @users = policy_scope(User).where.not(id: current_user.id).order(:full_name)
       @categories = Recognition::CATEGORIES
       render :new, status: :unprocessable_entity
     end
@@ -35,7 +35,7 @@ class RecognitionsController < ApplicationController
   private
 
   def set_recognition
-    @recognition = Recognition.find(params[:id])
+    @recognition = policy_scope(Recognition).find(params[:id])
   end
 
   def recognition_params
@@ -43,7 +43,7 @@ class RecognitionsController < ApplicationController
   end
 
   def filter_recognitions
-    recognitions = Recognition.includes(:giver, :recipient).recent
+    recognitions = policy_scope(Recognition).includes(:giver, :recipient).recent
 
     # Filter by date range
     if params[:date_range].present?
