@@ -1,6 +1,4 @@
 class Role < ApplicationRecord
-  acts_as_tenant(:company)
-
   DEFAULT_PERMISSIONS = {
     activities: { view: false, export: false },
     users: { view: false, create: false, update: false, delete: false },
@@ -11,6 +9,8 @@ class Role < ApplicationRecord
   has_many :company_user_roles, dependent: :restrict_with_error
   has_many :company_users, through: :company_user_roles
   has_many :current_role_users, class_name: "CompanyUser", foreign_key: :current_role_id
+
+  belongs_to :company
 
   validates :name, presence: true, uniqueness: { scope: :company_id }
   validates :permissions, presence: true
