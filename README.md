@@ -2,6 +2,16 @@
 
 A comprehensive multi-tenant Ruby on Rails application designed to track user activities, manage company teams, and provide recognition systems with detailed analytics.
 
+---
+
+## 📋 Documentation Links
+
+- **📖 [View Full Documentation](docs/USER_ACTIVITY_TRACKING_DOCUMENTATION.md)**
+- **🖼️ [Database ERD](docs/ERD.png)**
+- **📁 [Documentation Directory](docs/)**
+
+---
+
 ## Overview
 
 This application provides organizations with powerful tools to monitor user engagement, track activities, manage teams across multiple companies, and recognize employee achievements. Built with Ruby on Rails 8.0 and featuring modern frontend technologies, it offers real-time activity tracking, role-based access control, and comprehensive analytics.
@@ -12,7 +22,6 @@ This application provides organizations with powerful tools to monitor user enga
 - **Comprehensive Activity Logging**: Automatically tracks user logins, logouts, profile updates, and system interactions
 - **Multi-tenant Architecture**: Full isolation between companies with secure data segregation
 - **Rich Metadata**: Captures IP addresses, user agents, session duration, and custom metadata
-- **Configurable Retention**: Customizable data retention periods per company
 - **Real-time Monitoring**: Live activity feeds and instant notifications
 
 ### 👥 User Management
