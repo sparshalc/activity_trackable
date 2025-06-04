@@ -40,6 +40,10 @@ class User < ApplicationRecord
     current_role&.name == "owner"
   end
 
+  def manager?
+    current_role&.name == "manager"
+  end
+
   def role_in_company(company)
     company_users.find_by(company: company)&.current_role
   end

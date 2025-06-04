@@ -1,12 +1,11 @@
 class RecognitionsController < ApplicationController
   before_action -> { authorize :recognition, policy_class: RecognitionPolicy }, only: %i[index show new create]
   before_action :set_recognition, only: [ :show ]
+  before_action :set_users_and_categories, only: %i[index new create]
 
   def index
     @recognitions = filter_recognitions
     @pagy, @recognitions = pagy(@recognitions, items: 10)
-    @users = policy_scope(User).select(:id, :full_name, :email).order(:full_name)
-    @categories = Recognition::CATEGORIES
   end
 
   def show
@@ -14,8 +13,6 @@ class RecognitionsController < ApplicationController
 
   def new
     @recognition = Recognition.new
-    @users = policy_scope(User).where.not(id: current_user.id).order(:full_name)
-    @categories = Recognition::CATEGORIES
   end
 
   def create
@@ -26,13 +23,26 @@ class RecognitionsController < ApplicationController
     if @recognition.save
       redirect_to recognitions_path, notice: "Recognition was successfully given! 🎉"
     else
-      @users = policy_scope(User).where.not(id: current_user.id).order(:full_name)
-      @categories = Recognition::CATEGORIES
       render :new, status: :unprocessable_entity
     end
   end
 
   private
+
+  def set_users_and_categories
+    @users = policy_scope(User)
+             .joins(:company_users)
+             .where(company_users: { company_id: ActsAsTenant.current_tenant.id })
+             .select(:id, :full_name, :email)
+             .order(:full_name)
+
+    # For new and create actions, exclude current user (can't give recognition to themselves)
+    if %w[new create].include?(action_name)
+      @users = @users.where.not(id: current_user.id)
+    end
+
+    @categories = Recognition::CATEGORIES
+  end
 
   def set_recognition
     @recognition = policy_scope(Recognition).find(params[:id])

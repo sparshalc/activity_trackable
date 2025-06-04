@@ -27,6 +27,8 @@ class RecognitionPolicy < ApplicationPolicy
       if user.admin? || user.owner?
         # Admin and owner can see all recognitions in their company
         scope.all
+      elsif user.manager?
+        scope.where(recipient: user).or(scope.where(giver: user))
       else
         scope.where(recipient: user)
       end
