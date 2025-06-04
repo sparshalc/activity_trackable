@@ -59,6 +59,16 @@ class DashboardController < ApplicationController
     respond_to do |format|
       format.html
       format.json { render json: { activities: @activities, users: @users, recognitions: @recognitions, analytics: @analytics, peak_hours: @peak_hours, browser_stats: @browser_stats, unique_daily_users: @unique_daily_users, top_users: @top_users } }
+      format.pdf do
+        render pdf: "Analytics_Report_#{Date.current.strftime('%Y-%m-%d')}",
+               layout: "pdf",
+               show_as_html: params[:debug].present?,
+               orientation: "Portrait",
+               page_size: "A4",
+               margin: { top: "0.75in", bottom: "0.75in", left: "0.5in", right: "0.5in" },
+               header: { html: { template: "shared/pdf_header" } },
+               footer: { html: { template: "shared/pdf_footer" } }
+      end
     end
   end
 
