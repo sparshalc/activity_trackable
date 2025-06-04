@@ -34,7 +34,6 @@ class Activity < ApplicationRecord
   scope :by_user, ->(user_id) { where(user_id: user_id) }
   scope :by_trackable, ->(trackable) { where(trackable: trackable) }
   scope :in_date_range, ->(start_date, end_date) { where(occurred_at: start_date..end_date) }
-  scope :for_company, ->(company_id) { where(company_id: company_id) }
 
   before_validation :set_occurred_at, if: -> { occurred_at.blank? }
   before_save :sanitize_metadata

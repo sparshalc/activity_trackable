@@ -72,4 +72,18 @@ RSpec.configure do |config|
 
   # Factory bot
   config.include FactoryBot::Syntax::Methods
+
+  # Time helpers for freeze_time, travel_to, etc.
+  config.include ActiveSupport::Testing::TimeHelpers
+
+  config.before(:each, type: :model) do
+    ActsAsTenant.current_tenant = Company.first || create(:company)
+  end
+end
+
+Shoulda::Matchers.configure do |config|
+  config.integrate do |with|
+    with.test_framework :rspec
+    with.library :rails
+  end
 end
