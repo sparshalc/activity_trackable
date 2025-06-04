@@ -200,13 +200,20 @@ Administrators can configure:
 The application provides REST API endpoints for integration:
 
 ```ruby
-# Activity tracking
-POST /api/activities
-GET /api/activities
+# Activity
+GET /activities.json
 
 # User management
-GET /api/users
-POST /api/users
+GET /users.json
+
+# Recognitions
+GET /recognitions.json
+
+# Analysis
+GET /analytics.json
+
+# Company Settings
+GET /company_settings.json
 ```
 
 ## Development
