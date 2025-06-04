@@ -30,6 +30,14 @@ class Company < ApplicationRecord
     company_users.find_by(user: user)&.destroy
   end
 
+  def active_users_count
+    users.kept.count
+  end
+
+  def discarded_users_count
+    users.discarded.count
+  end
+
   private
 
   def create_default_settings

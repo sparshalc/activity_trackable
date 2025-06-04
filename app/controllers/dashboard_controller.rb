@@ -2,6 +2,7 @@ class DashboardController < ApplicationController
   def index
     @activities = Activity.recent
     @users = User.count
+    @recognitions = Recognition.count
   end
 
   def analytics

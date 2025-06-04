@@ -116,6 +116,8 @@ GEM
       responders
       warden (~> 1.2.3)
     diff-lcs (1.6.2)
+    discard (1.4.0)
+      activerecord (>= 4.2, < 9.0)
     dotenv (3.1.8)
     drb (2.2.3)
     ed25519 (1.4.0)
@@ -410,6 +412,7 @@ DEPENDENCIES
   csv
   debug
   devise (~> 4.9)
+  discard (~> 1.4)
   factory_bot_rails
   groupdate
   jbuilder

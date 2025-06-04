@@ -17,6 +17,9 @@ class Activity < ApplicationRecord
     role_removed: "role_removed",
     role_switch: "role_switch",
 
+    user_discarded: "user_discarded",
+    user_undiscarded: "user_undiscarded",
+
     admin_action: "admin_action"
   }.freeze
 
@@ -100,6 +103,18 @@ class Activity < ApplicationRecord
       "#{metadata['role_name']} role removed from #{user.full_name}"
     when "role_switch"
       "#{user.full_name} switched from #{metadata['old_role']} to #{metadata['new_role']}"
+    when "user_discarded"
+      if metadata["discarded_by_name"] && metadata["discarded_by_name"] != trackable.full_name
+        "#{metadata['discarded_by_name']} discarded user #{trackable.full_name}"
+      else
+        "User #{trackable.full_name} was discarded"
+      end
+    when "user_undiscarded"
+      if metadata["undiscarded_by_name"] && metadata["undiscarded_by_name"] != trackable.full_name
+        "#{metadata['undiscarded_by_name']} restored user #{trackable.full_name}"
+      else
+        "User #{trackable.full_name} was restored"
+      end
     else
       "#{user.full_name} performed #{action.humanize.downcase}"
     end
