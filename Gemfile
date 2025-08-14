@@ -92,7 +92,7 @@ gem "chartkick"
 gem "groupdate"
 
 # Pagination
-gem "pagy", "~> 9.3"
+gem "pagy", "~> 9.4"
 
 # CSV
 gem "csv"
